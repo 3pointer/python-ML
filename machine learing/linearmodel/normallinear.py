@@ -21,4 +21,4 @@ def pretty_print_linear(coefs, names = None, sort = False):
         lst = sorted(lst, key = lambda x : -np.abs(X[0]))
     return ''+''.join("%s * %s " % (round(coef, 5), name)for coef, name in lst)
 
-print "linear Model:", pretty_print_linear(lr.coef_)
+print "linear Mdel:", pretty_print_linear(lr.coef_)
