@@ -19,7 +19,7 @@ for idx, x in enumerate(N):
 fig, ax = plt.subplots(figsize=(10, 4))
 
 for i in xrange(len(N)):
-    density = k(betaCLT[i, :])
+    density = scipy.stats.gaussian_kde(betaCLT[i, :])
     xs = np.linspace(-5, 5, 200)
     density.covariance_factor = lambda : .15
     density._compute_covariance()
