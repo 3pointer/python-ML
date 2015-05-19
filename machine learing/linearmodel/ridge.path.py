@@ -11,16 +11,13 @@ y = np.ones(10)
 
 n_alphas = 200
 alphas = np.logspace(-10, -2, n_alphas)
-clf = linear_model.Ridge(fit_intercept = False)
+clf = linear_model.Ridge(fit_intercept=False)
 
 coefs = []
 for a in alphas:
     clf.set_params(alpha=a)
     clf.fit(X, y)
     coefs.append(clf.coef_)
-
-print type(alphas)
-print type(coefs)
 
 ax = plt.gca()
 ax.set_color_cycle(['b', 'r', 'g', 'c', 'k', 'y', 'm'])
