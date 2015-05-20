@@ -26,7 +26,7 @@ for i in xrange(1,n):
 
 from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(
-    boston.data, boston.target, test_size=0.25, random_state=3)
+    boston.data, boston.target, test_size=0.25, random_state=33)
 
 from sklearn.feature_selection import *
 fs = SelectKBest(score_func=f_regression, k=5)
@@ -61,6 +61,7 @@ X_train = scalerX.transform(X_train)
 X_test= scalerX.transform(X_test)
 y_train = scalery.transform(y_train)
 y_test = scalery.transform(y_test)
+#print np.max(X_train), np.min(X_train), np.mean(X_train), np.max(y_train), np.min(y_train), np.mean(y_train)
 
 X_new = fs.fit_transform(X_train, y_train)
 
@@ -79,5 +80,46 @@ for i in range(5):
     axes[i].set_ylim(y_min, y_max)
     plt.sca(axes[i])
     plt.scatter(X_new[:, i], y_train)
-plt.show()
+#plt.show()
 
+
+from sklearn.cross_validation import *
+def train_and_evaluate(clf, X_train, y_train):
+    clf.fit(X_train, y_train)
+    print "Coeffcient of determination on training set:", clf.score(X_train, y_train)
+    cv = KFold(X_train.shape[0], 5, shuffle=True, random_state=33)
+    scores = cross_val_score(clf, X_train, y_train, cv = cv)
+    print "Average coefficient of determination using 5-fold crosscalidation:", np.mean(scores)
+
+from sklearn import linear_model
+clf_sgd = linear_model.SGDRegressor(loss='squared_loss', penalty=None, random_state = 33)
+train_and_evaluate(clf_sgd, X_train, y_train)
+#print clf_sgd.coef_
+
+clf_sgd1 = linear_model.SGDRegressor(loss='squared_loss', penalty='l1', random_state = 33)
+train_and_evaluate(clf_sgd1, X_train, y_train)
+#print clf_sgd1.coef_
+
+clf_sgd2 = linear_model.SGDRegressor(loss='squared_loss', penalty='l2', random_state = 42)
+train_and_evaluate(clf_sgd2, X_train, y_train)
+#print clf_sgd2.coef_
+
+from sklearn import svm
+clf_scm = svm.SVR(kernel = 'linear')
+train_and_evaluate(clf_scm, X_train, y_train)
+#print clf_scm.coef_
+
+clf_svr_poly= svm.SVR(kernel='poly')
+train_and_evaluate(clf_svr_poly,X_train,y_train)
+
+clf_svr_rbf= svm.SVR(kernel='rbf')
+train_and_evaluate(clf_svr_rbf,X_train,y_train)
+
+clf_svr_poly2= svm.SVR(kernel='poly',degree=2)
+train_and_evaluate(clf_svr_poly2,X_train,y_train)
+
+from sklearn import ensemble
+clf_et = ensemble.ExtraTreesRegressor(n_estimators=10, random_state=42)
+train_and_evaluate(clf_et, X_train, y_train)
+
+print np.sort(zip(clf_et.feature_importances_,boston.feature_names),axis=0)
