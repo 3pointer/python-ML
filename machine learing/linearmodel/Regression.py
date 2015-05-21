@@ -123,3 +123,23 @@ clf_et = ensemble.ExtraTreesRegressor(n_estimators=10, random_state=42)
 train_and_evaluate(clf_et, X_train, y_train)
 
 print np.sort(zip(clf_et.feature_importances_,boston.feature_names),axis=0)
+
+from sklearn import metrics
+
+def measure_performance(X, y, clf, show_accuracy=True,show_classification_report=True,show_confusion_matrix=True,show_r2_score=False):
+    y_pred = clf.predict(X_test)
+    if show_accuracy:
+        print "Accuracy:{0:.3f}".format(metrics.accuracy_score(y, y_pred)),"\n"
+
+    if show_classification_report:
+        print "Classification report"
+        print metrics.classification_report(y, y_pred),"\n"
+
+    if show_confusion_matrix:
+        print "confusion matrix"
+        print metrics.confusion_matrix(y, y_pred),"\n"
+
+    if show_r2_score:
+        print "coefficient of determination:{0:.3f}".format(metrics.r2_score(y, y_pred)),"\n"
+
+measure_performance(X_test, y_test, clf_et, show_accuracy = True, show_classification_report = True, show_confusion_matrix = True, show_r2_score = True)
