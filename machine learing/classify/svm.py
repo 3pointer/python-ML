@@ -21,8 +21,8 @@ def print_faces(images, target, top_n):
         p.text(0, 60, str(i))
     plt.show()
 
-#print_faces(faces.images, faces.target, 200)
-#plt.show()
+print_faces(faces.images, faces.target, 200)
+plt.show()
 
 
 from sklearn.svm import SVC
@@ -99,4 +99,4 @@ y_pred = svc_3.predict(X_test)
 
 eval_faces = [np.reshape(a, (64,64)) for a in X_test]
 print_faces(eval_faces, y_pred, 10)
-
+print_faces(eval_faces, Y_test, 10)
