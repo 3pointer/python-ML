@@ -36,7 +36,6 @@ print zip(fs.get_support(), boston.feature_names)
 x_min, x_max = X_new[:,0].min() - .5, X_new[:,0].max() + .5 #normalization!!!! feature2 is not avaiable to see
 y_min, y_max = y_train.min() - .5, y_train.max() +.5
 
-"""
 fig, axes = plt.subplots(1, 5)
 fig.set_size_inches(10, 10)
 
@@ -50,7 +49,6 @@ for i in range(5):
     plt.sca(axes[i])
     plt.scatter(X_new[:, i], y_train)
 plt.show()
-"""
 
 
 from sklearn.preprocessing import StandardScaler
@@ -80,7 +78,9 @@ for i in range(5):
     axes[i].set_ylim(y_min, y_max)
     plt.sca(axes[i])
     plt.scatter(X_new[:, i], y_train)
-#plt.show()
+plt.show()
+
+
 
 
 from sklearn.cross_validation import *
@@ -141,5 +141,3 @@ def measure_performance(X, y, clf, show_accuracy=True,show_classification_report
 
     if show_r2_score:
         print "coefficient of determination:{0:.3f}".format(metrics.r2_score(y, y_pred)),"\n"
-
-measure_performance(X_test, y_test, clf_et, show_accuracy = True, show_classification_report = True, show_confusion_matrix = True, show_r2_score = True)

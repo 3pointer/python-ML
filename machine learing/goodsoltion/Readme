@@ -1,9 +1,0 @@
-
-
-用3天的行为作traindata
-用第4天的购买与否做traintarget
-构造每个用户的LR模型
-
-用16,17,18的行为数据作testdata
-预测19
-
