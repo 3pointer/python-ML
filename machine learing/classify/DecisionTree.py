@@ -24,5 +24,39 @@ with open(path, 'rb') as csvfile:
 #print feature_names,titanic_X[0], titanic_y[0]
 titanic_X = titanic_X[:, [1, 4, 10]]
 feature_names = feature_names[[1, 4, 10]]
-print feature_names
+#print feature_names
+#print titanic_X
+
+ages = titanic_X[:,1]
+mean_age = np.mean(titanic_X[ages != 'NA', 1].astype(np.float))
+titanic_X[ages == 'NA', 1] = mean_age
+#print feature_names
+#print titanic_X
+
+
+from sklearn.preprocessing import LabelEncoder
+enc = LabelEncoder()
+label_encoder = enc.fit(titanic_X[:,2])
+#print label_encoder.classes_
+#integer_classes = label_encoder.transform(label_encoder.classes_)
+#print integer_classes
+titanic_X[:,2] = label_encoder.transform(titanic_X[:, 2])
+#print titanic_X
+
+from sklearn.preprocessing import OneHotEncoder
+enc = LabelEncoder()
+label_encoder = enc.fit(titanic_X[:,0])
+int = enc.transform(label_encoder.classes_).reshape(3, 1)
+
+enc = OneHotEncoder()
+one_hot_encoder = enc.fit(int)
+
+new_feature = one_hot_encoder.transform(label_encoder.transform(titanic_X[:,0]).reshape(titanic_X.shape[0], 1)) #????transform explain
+print type(new_feature)
+titanic_X = np.concatenate([titanic_X, new_feature.toarray()], axis = 1)
+titanic_X = np.delete(titanic_X, [0], 1)
+
+feature_names = ['age', 'sex', 'first_class', 'second_class', 'third_class']
+titanic_X = titanic_X.astype(float)
 print titanic_X
+
