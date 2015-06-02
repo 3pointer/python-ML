@@ -52,11 +52,21 @@ enc = OneHotEncoder()
 one_hot_encoder = enc.fit(int)
 
 new_feature = one_hot_encoder.transform(label_encoder.transform(titanic_X[:,0]).reshape(titanic_X.shape[0], 1)) #????transform explain
-print type(new_feature)
+#print type(new_feature)
 titanic_X = np.concatenate([titanic_X, new_feature.toarray()], axis = 1)
 titanic_X = np.delete(titanic_X, [0], 1)
 
 feature_names = ['age', 'sex', 'first_class', 'second_class', 'third_class']
 titanic_X = titanic_X.astype(float)
-print titanic_X
+#print titanic_X
+
+from sklearn.cross_validation import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(titanic_X, titanic_y, test_size=0.25, random_state=33)
+
+from sklearn import tree
+clf = tree.DecisionTreeClassifier(criterion='entropy', max_depth=3, min_samples_leaf=5)
+clf = clf.fit(X_train, y_train)
+
+import StringIO
+dot_data = StringIO.StringIO()
 
