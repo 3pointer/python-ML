@@ -68,5 +68,21 @@ clf = tree.DecisionTreeClassifier(criterion='entropy', max_depth=3, min_samples_
 clf = clf.fit(X_train, y_train)
 
 import StringIO
+import matplotlib
+import matplotlib.pyplot as plt
+import pydot
+import pyparsing
+"""
 dot_data = StringIO.StringIO()
-integer_classes = label_encoder.transform(label_encoder.classes_).reshape(3, 1)
+tree.export_graphviz(clf, out_file = dot_data, feature_names = ['age', 'sex', '1st_class', '2nd_class', '3rd_class'])
+graph = pydot.graph_from_dot_data(dot_data.getvalue())
+"""
+dot_data = StringIO.StringIO() 
+tree.export_graphviz(clf, out_file=dot_data, feature_names=['age','sex','1st_class','2nd_class','3rd_class']) 
+graph = pydot.graph_from_dot_data(dot_data.getvalue()) 
+graph.write_png('titanic.png') 
+from IPython.core.display import Image 
+Image(filename='titanic.png')
+
+
+
