@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-
 path = '../../../kaggle/t.csv'
 
 import csv
@@ -33,7 +32,6 @@ titanic_X[ages == 'NA', 1] = mean_age
 #print feature_names
 #print titanic_X
 
-
 from sklearn.preprocessing import LabelEncoder
 enc = LabelEncoder()
 label_encoder = enc.fit(titanic_X[:,2])
@@ -42,6 +40,8 @@ label_encoder = enc.fit(titanic_X[:,2])
 #print integer_classes
 titanic_X[:,2] = label_encoder.transform(titanic_X[:, 2])
 #print titanic_X
+
+integer_classes = label_encoder.transform(label_encoder.classes_)
 
 from sklearn.preprocessing import OneHotEncoder
 enc = LabelEncoder()
@@ -69,4 +69,4 @@ clf = clf.fit(X_train, y_train)
 
 import StringIO
 dot_data = StringIO.StringIO()
-
+integer_classes = label_encoder.transform(label_encoder.classes_).reshape(3, 1)
